@@ -5,22 +5,34 @@
 --
 -- We'll also set the status to 500 and call the logger, since this is an error
 -- page.
+context.log("Server Error: "..context.request.url, "error")
 
-context.log("Page not found: "..context.request.url, "error")
+context.output.error = {}
 
-context.template = {
-  type = "mustache",
-  name = "app/templates/layout",
+for _, error in pairs(context.error) do
+  --Build stack trace
+  local trace = {}
+  local headerRemoved = false
+  for line in error.trace:gmatch("[^\r\n]+") do
+    if headerRemoved then
+      line = line:gsub("^%s*", "")
+      if string.sub(line, 1, 1) ~= '[' then
+        trace[#trace+1]=line
+      end
+    else
+      headerRemoved = true
+    end
+  end
 
-  partials = {
-    content = "app/templates/error",
+  local message = error.message
+  if type(message) == "table" then
+    message = message[1]
+  end
+
+  context.output.error[#context.output.error+1] = {
+    message = message,
+    trace = trace,
   }
-}
+end
 
-context.output = {
-  message = "Page not found.",
-  code = 500
-}
-
-context.response.status = 500
-
+context.output.code = context.response.status

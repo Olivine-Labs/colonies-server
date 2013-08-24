@@ -4,7 +4,7 @@ return {
       -- decode json input if it exists in the body data.
       -- you can provide -- options to the handler as a table.
       -- in this case, we are passing in a json encoding/decoding function.
-      ['lusty-json.input.json'] = { json = require 'cjson' }
+      ['lusty-json.input.json'] = { json = require 'dkjson' }
     },
 
     -- / is routed to /index in nginx
@@ -12,16 +12,26 @@ return {
     ['request'] = { ['lusty-request-pattern.request.pattern'] = {
       patterns = {
         { ['index']                   = 'requests.index' },
-        { ['404']                     = 'requests.404' },
-        { ['500']                     = 'requests.505' },
-        { ['{whatever}']              = 'requests.404' }
       }
     }},
+    ['request:404'] = {['lusty-request-file.request.file'] = 'requests.404'},
+    ['request:500'] = {['lusty-request-file.request.file'] = 'requests.500'},
+
+    ['error'] = {
+      ['lusty-error-status.error.status'] = {
+        prefix = {{'input'}},
+        status = {
+          [500] = {{'request:500'}},
+          [404] = {'request:404'}
+        },
+        suffix = {{'output'}}
+      }
+    },
 
     -- capture html requests as mustache handlers, and
     -- capture json requests to output handler data as json
     ['output'] = {
-      ['lusty-json.output.json'] = { json = require 'cjson', default = true }
+      ['lusty-json.output.json'] = { json = require 'dkjson', default = true }
     },
 
     -- log events should write to the console
@@ -36,6 +46,7 @@ return {
   publishers = {
     {'input'},
     {'request'},
+    {'error'},
     {'output'}
   },
 

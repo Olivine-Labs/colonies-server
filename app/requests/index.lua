@@ -3,8 +3,6 @@
 --
 -- If this is a json request, `context.output` will be the json output.
 
-context.log("Page not found: "..context.request.url, "error")
-
 context.template = {
   type = "mustache",
   name = "app/templates/layout",
