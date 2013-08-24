@@ -1,10 +1,12 @@
+local json = require 'cjson'
+
 return {
   subscribers = {
     ['input'] = {
       -- decode json input if it exists in the body data.
       -- you can provide -- options to the handler as a table.
       -- in this case, we are passing in a json encoding/decoding function.
-      ['lusty-json.input.json'] = { json = require 'dkjson' }
+      ['lusty-json.input.json'] = { json = json }
     },
 
     -- / is routed to /index in nginx
@@ -31,7 +33,7 @@ return {
     -- capture html requests as mustache handlers, and
     -- capture json requests to output handler data as json
     ['output'] = {
-      ['lusty-json.output.json'] = { json = require 'dkjson', default = true }
+      ['lusty-json.output.json'] = { json = json, default = true }
     },
 
     -- log events should write to the console
