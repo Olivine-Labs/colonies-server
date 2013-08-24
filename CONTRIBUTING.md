@@ -33,7 +33,7 @@ be found in the README.
 
 ## Using Git appropriately
 
-1. [Fork the repository](https://github.com/Olivine-Labs/busted/fork_select) to
+1. [Fork the repository](https://github.com/Olivine-Labs/colonies-server/fork_select) to
   your Github account.
 2. Create a *topical branch* - a branch whose name is succint but explains what
   you're doing, such as "optimized-turn-api-implementation"
