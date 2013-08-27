@@ -1,10 +1,3 @@
--- For this example, we'll load up a mustache template and populate it with
--- some partials and some data.
---
--- If this is a json request, `context.output` will be the json output.
---
--- We'll also set the status to 500 and call the logger, since this is an error
--- page.
 context.log("Server Error: "..context.request.url, "error")
 
 context.output.error = {}
