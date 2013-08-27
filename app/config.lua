@@ -22,7 +22,14 @@ return {
     -- ./api/index.lua is loaded when /index is requested
     ['request'] = { [pattern] = {
       patterns = {
-        { ['index'] = 'api.index' },
+        { ['index']   = 'api.index' },
+        { ['server']  = 'api.server' },
+        { ['game']    = 'api.game' },
+        { ['map']     = 'api.map' },
+        { ['unit']    = 'api.unit' },
+        { ['city']    = 'api.city' },
+        { ['civ']     = 'api.civ' },
+        { ['location']= 'api.location' },
       }
     }},
 
